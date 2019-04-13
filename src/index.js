@@ -12,7 +12,13 @@ import burgerBuilderReducer from './store/reducers/burgerBuilderReducer';
 import orderReducer from './store/reducers/orderReducer';
 import authReducer from './store/reducers/authReducer';
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+let composeEnhancers = compose;
+
+if (process.env.NODE_ENV === 'development') {
+    composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+}
 
 const rootReducer = combineReducers({
     burgerBuilder: burgerBuilderReducer,
@@ -26,7 +32,7 @@ const store = createStore(rootReducer, composeEnhancers(
 
 const app = (
     <Provider store={store}>
-        <BrowserRouter>
+        <BrowserRouter basename="/">
             <App />
         </BrowserRouter>
     </Provider>
